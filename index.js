@@ -14,6 +14,9 @@ console.log('Hello from Node.js!');
 // Example: Simple HTTP server (uncomment to use)
 const http = require('http');
 
+// In es module syntax, use the following line instead:
+// import http from 'http';
+
 const server = http.createServer((req, res) => {
   res.writeHead(200, { 'Content-Type': 'text/plain' });
   res.end('Hello World!');
