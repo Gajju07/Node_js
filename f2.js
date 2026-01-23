@@ -28,6 +28,7 @@ const server = http.createServer((req, res) => {
 
     // Using your lineBreak variable inside backticks
     res.write(`Second output and the timer is set to 1 second ${lineBreak}`);
+    //  res.write('Hello from f2.js after a 1-second delay!');
     res.end('Hello from f2.js after a 1-second delay!');
   }, 1000);
 
