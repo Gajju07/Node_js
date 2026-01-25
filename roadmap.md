@@ -1,7 +1,7 @@
 Phase 1: Foundation (Must Start Here)
-HTTP Request/Response Cycle - Core conceptual foundation
-Http Messages - Understanding what's being sent/received
-Http Basics - Practical HTTP fundamentals
+HTTP Request/Response Cycle - Core conceptual foundation  1
+Http Messages - Understanding what's being sent/received  1
+Http Basics - Practical HTTP fundamentals 1   
 Express Basics - Framework introduction
 Express - App Example - First working server
 Phase 2: Core Backend Skills (High Priority)
