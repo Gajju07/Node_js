@@ -144,3 +144,21 @@ GET /api/users
 
 This project is licensed under the ISC License.
 
+## feed back for users table : 
+
+
+1. The table requires password (NOT NULL), but the API (createUserService) only inserts name and email. This will cause database insertion failures.
+
+Passwords are stored in plain text (no hashing). This is a major security vulnerability.
+Validation middleware only checks name and email, ignoring password.
+
+2. Incomplete Data Model:
+Missing updated_at timestamp for tracking changes.
+name is unique, but typically usernames are unique, not full names (which can conflict).
+
+3. Performance and Scalability:
+No additional indexes (only primary key and unique constraints). Add indexes on frequently queried fields like email.
+No foreign keys or relationships (e.g., no tasks table linked to users, despite taskController.js existing).
+
+4. Security and Compliance:
+Passwords must be hashed (e.g., using bcrypt) before storage.
