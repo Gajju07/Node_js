@@ -1,12 +1,12 @@
-// Standardized response function
 import {
     createUserService,
-    getAllUsersService, 
+    getAllUsersService,
     getUserByIDService,
     updateUserService,
     deleteUserService
 } from '../services/userModel.js';
 
+// Standardized response function
 const handleResponse = (res, status, message, data = null) => {
     res.status(status).json({
         status,
@@ -15,32 +15,37 @@ const handleResponse = (res, status, message, data = null) => {
     });
 };
 
-export const createUser = (req, res, next) => { 
-    const {name, email} = req.body;
+export const createUser = async (req, res, next) => {
+    const { name, email } = req.body;
     try {
-        const user = {
-            name,
-            email
-        };
-        const newUser = createUserService(user);
-        handleResponse(res, 200, 'User created successfully', newUser);
+        const user = { name, email };
+        // Added await here so we wait for the DB to insert the user
+        const newUser = await createUserService(user);
+        
+        // Changed status to 201 (Created) which is standard for creation
+        handleResponse(res, 201, 'User created successfully', newUser);
     } catch (error) {
         next(error);
     }
 };
 
-export const getAllUsers = (req, res, next) => { 
+export const getAllUsers = async (req, res, next) => {
     try {
-        const users = getAllUsersService();
-        handleResponse(res, 200, 'All User fetched successfully', users);
+        // Added await here
+        const users = await getAllUsersService();
+        
+        // FIXED BUG: changed 'user' to 'users' to match the variable above
+        handleResponse(res, 200, 'All Users fetched successfully', users);
     } catch (error) {
         next(error);
     }
 };
 
-export const getAllUsersByID = (req, res, next) => { 
+export const getAllUsersByID = async (req, res, next) => {
     try {
-        const user = getUserByIDService(req.params.id);
+        // Added await here
+        const user = await getUserByIDService(req.params.id);
+        
         if (!user) {
             return handleResponse(res, 404, 'User not found');
         }
@@ -50,11 +55,11 @@ export const getAllUsersByID = (req, res, next) => {
     }
 };
 
-export const updateUser = async (req, res, next) => { 
-    const {name, email} = req.body;
+export const updateUser = async (req, res, next) => {
+    const { name, email } = req.body;
     try {
         const updatedUser = await updateUserService(req.params.id, name, email);
-         if (!updatedUser) {
+        if (!updatedUser) {
             return handleResponse(res, 404, 'User not found');
         }
         handleResponse(res, 200, 'User updated successfully', updatedUser);
@@ -63,10 +68,10 @@ export const updateUser = async (req, res, next) => {
     }
 };
 
-export const deleteUser = async (req, res, next) => { 
+export const deleteUser = async (req, res, next) => {
     try {
         const user = await deleteUserService(req.params.id);
-         if (!user) {
+        if (!user) {
             return handleResponse(res, 404, 'User not found');
         }
         handleResponse(res, 200, 'User deleted successfully', user);
