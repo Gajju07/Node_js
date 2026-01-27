@@ -5,9 +5,34 @@ import pool from './src/config/db.js'; // Adding database config
 import userRoutes from './src/routes/userRoutes.js'; // Importing user routes
 import errorHandler from './src/middleware/errorHandler.js'; // Importing error handling middleware
 import createUserTable from './src/data/createUsertable.js'; // Create table script
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUi from 'swagger-ui-express';
 
 // Load environment variables FIRST
 dotenv.config();
+
+// Swagger definition
+const swaggerDefinition = {
+  openapi: '3.0.0',
+  info: {
+    title: 'Node.js API',
+    version: '1.0.0',
+    description: 'A simple Node.js API for user management',
+  },
+  servers: [
+    {
+      url: `http://localhost:${process.env.PORT || 3000}`,
+      description: 'Development server',
+    },
+  ],
+};
+
+const options = {
+  swaggerDefinition,
+  apis: ['./src/routes/*.js'], // Paths to files containing OpenAPI definitions
+};
+
+const specs = swaggerJSDoc(options);
 
 // Creating a app
 const app = express();
@@ -20,9 +45,32 @@ const server_port = process.env.PORT || 3000;
 app.use(express.json()); 
 app.use(cors());
 
+// Swagger UI
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+
 // Create table if not exists
 createUserTable();
 
+/**
+ * @swagger
+ * /:
+ *   get:
+ *     summary: Check server and database status
+ *     responses:
+ *       200:
+ *         description: Server is running
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 database:
+ *                   type: string
+ *       500:
+ *         description: Database connection error
+ */
 // Testing Postgres database connection and server status
 app.get('/', async (req, res) => {
     try {
