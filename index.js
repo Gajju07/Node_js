@@ -92,6 +92,8 @@ app.use('/api', userRoutes);
 app.use(errorHandler); 
 
 // Listening the server
-app.listen(server_port, () => {
+const server = app.listen(server_port, () => {
     console.log(`Server is running on port ${server_port}`);
 });
+
+export { app, server };

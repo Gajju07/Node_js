@@ -4,45 +4,56 @@ import validateUser from '../middleware/validation.js';
 
 const router =  express.Router();
 
+//router.post('/user', validateUser, createUser);
+//router.get('/users', getAllUsers);
+//router.get('/user/:id', getAllUsersByID);
+//router.put('/user/:id', validateUser, updateUser);
+//router.delete('/user/:id', deleteUser);
+
 /**
  * @swagger
  * /api/user:
- *   post:
- *     summary: Create a new user
- *     tags: [Users]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - name
- *               - email
- *             properties:
- *               name:
- *                 type: string
- *                 minLength: 3
- *                 maxLength: 30
- *               email:
- *                 type: string
- *                 format: email
- *     responses:
- *       201:
- *         description: User created successfully
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 status:
- *                   type: integer
- *                 message:
- *                   type: string
- *                 data:
- *                   type: object
- *       400:
- *         description: Validation error
+ *  post:
+ *      summary: Create a new user
+ *      tags: [Users]
+ *      requestBody:
+ *        required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            required:
+ *              - name
+ *              - email
+ *              - password
+ *            properties:
+ *              name:
+ *                type: string
+ *                minLength: 3
+ *                maxLength: 30
+ *              email:
+ *                type: string
+ *                format: email
+ *              password:
+ *                type: string
+ *                format: password
+ *                description: Must be 8-30 chars, incl. 1 uppercase, 1 lowercase, 1 number.
+ *      responses:
+ *            201:
+ *              description: User created successfully
+ *              content:
+ *                application/json:
+ *                  schema:
+ *                    type: object
+ *                    properties:
+ *                      status:
+ *                        type: integer
+ *                      message:
+ *                        type: string
+ *                      data:
+ *                        type: object
+ *            400:
+ *              description: Validation error
  */
 router.post('/user', validateUser, createUser);
 
@@ -108,33 +119,36 @@ router.get('/user/:id', getAllUsersByID);
 /**
  * @swagger
  * /api/user/{id}:
- *   put:
- *     summary: Update a user by ID
- *     tags: [Users]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               name:
- *                 type: string
- *               email:
- *                 type: string
- *     responses:
- *       200:
- *         description: User updated successfully
- *       400:
- *         description: Validation error
- *       404:
- *         description: User not found
+ *  put:
+ *      summary: Update a user by ID
+ *      tags: [Users]
+ *      parameters:
+ *        - in: path
+ *          name: id
+ *          required: true
+ *          schema:
+ *            type: integer
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                name:
+ *                  type: string
+ *                email:
+ *                  type: string
+ *                password:
+ *                  type: string
+ *                  description: Must be 8-30 chars, incl. 1 uppercase, 1 lowercase, 1 number.
+ *      responses:
+ *            200:
+ *              description: User updated successfully
+ *            400:
+ *              description: Validation error
+ *            404:
+ *              description: User not found
  */
 router.put('/user/:id', validateUser, updateUser);
 
