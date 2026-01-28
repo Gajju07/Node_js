@@ -1,4 +1,4 @@
-// import pool from '../config/db.js';
+import pool from '../config/db.js';
 
 // // Get all tasks
 // export const getAllTasks = async (req, res, next) => {
@@ -15,7 +15,7 @@
 //         if (priority) {
 //             query += ' AND priority = $' + (params.length + 1);
 //             params.push(priority);
-//         }
+//         } 
 
 //         query += ' ORDER BY created_at DESC';
 //         const result = await pool.query(query, params);
