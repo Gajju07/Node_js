@@ -1,4 +1,5 @@
 import express from 'express';
+// import loginRouter from './loginRoute.js';
 import { createUser, deleteUser, getAllUsers, getAllUsersByID, updateUser } from '../controllers/userController.js';
 import validateUser from '../middleware/validation.js';
 
@@ -13,47 +14,47 @@ const router =  express.Router();
 /**
  * @swagger
  * /api/user:
- *  post:
+ *   post:
  *      summary: Create a new user
  *      tags: [Users]
  *      requestBody:
  *        required: true
- *      content:
- *        application/json:
- *          schema:
- *            type: object
- *            required:
- *              - name
- *              - email
- *              - password
- *            properties:
- *              name:
- *                type: string
- *                minLength: 3
- *                maxLength: 30
- *              email:
- *                type: string
- *                format: email
- *              password:
- *                type: string
- *                format: password
- *                description: Must be 8-30 chars, incl. 1 uppercase, 1 lowercase, 1 number.
- *      responses:
- *            201:
- *              description: User created successfully
- *              content:
- *                application/json:
- *                  schema:
- *                    type: object
- *                    properties:
- *                      status:
- *                        type: integer
- *                      message:
- *                        type: string
- *                      data:
- *                        type: object
- *            400:
- *              description: Validation error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              required:
+ *                - name
+ *                - email
+ *                - password
+ *              properties:
+ *                name:
+ *                  type: string
+ *                  minLength: 3
+ *                  maxLength: 30
+ *                email:
+ *                  type: string
+ *                  format: email
+ *                password:
+ *                  type: string
+ *                  format: password
+ *                  description: Must be 8-30 chars, incl. 1 uppercase, 1 lowercase, 1 number.
+ *        responses:
+ *              200:
+ *                description: User created successfully
+ *                content:
+ *                  application/json:
+ *                    schema:
+ *                      type: object
+ *                      properties:
+ *                        status:
+ *                          type: integer
+ *                        message:
+ *                          type: string
+ *                        data:
+ *                          type: object
+ *              400:
+ *                description: Validation error
  */
 router.post('/user', validateUser, createUser);
 
@@ -171,5 +172,6 @@ router.put('/user/:id', validateUser, updateUser);
  *         description: User not found
  */
 router.delete('/user/:id', deleteUser);
+
 
 export default router;

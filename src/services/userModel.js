@@ -25,6 +25,14 @@ export const deleteUserService = async (id) => {
  return result.rows[0];
 }
 
+// experiment 
+// export const getUserStreakService = async (id) => {
+//  const result = await pool.query('SELECT * FROM user_streaks WHERE user_id = $1;', [id]);
+//  return result.rows[0];
+// } 
+
+
+
 // // User model/service for business logic
 // let users = [];
 // let userIdCounter = 1;

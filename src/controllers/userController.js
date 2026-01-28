@@ -15,13 +15,17 @@ const handleResponse = (res, status, message, data = null) => {
     });
 };
 
+import bcrypt from 'bcrypt';
+
 export const createUser = (req, res, next) => { 
     const {name, email, password} = req.body;
     try {
+        const saltRound = 10;
+        const hashPassword = bcrypt.hashSync(password, saltRound);
         const user = {
             name,
             email,
-            password
+            password: hashPassword
         };
         const newUser = createUserService(user);
         handleResponse(res, 200, 'User created successfully', newUser);
@@ -54,7 +58,9 @@ export const getAllUsersByID = async (req, res, next) => {
 export const updateUser = async (req, res, next) => { 
     const {name, email, password} = req.body;
     try {
-        const updatedUser = await updateUserService(req.params.id, name, email, password);
+        const saltRound = 10;
+        const hashPassword = await bcrypt.hashSync(password, saltRound);
+        const updatedUser = await updateUserService(req.params.id, name, email, hashPassword);
          if (!updatedUser) {
             return handleResponse(res, 404, 'User not found');
         }
